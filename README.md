@@ -5,7 +5,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Available Scripts
 
 In the project directory, you can run:
-
+instal this dependency after this your project work
+npm install react-router-dom@5.2.0
 ### `npm start`
 
 Runs the app in the development mode.\
