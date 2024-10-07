@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: React-app
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ReactApp
+  namespace: React-app
+spec:
+  replicas: 15
+  selector:
+    matchLabels:
+      app: ReactApp
+  template:
+    metadata:
+      labels:
+        app: ReactApp
+    spec:
+      containers:
+      - name: ReactApp
+        image: <IMAGE_PLACEHOLDER>
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ReactApp-svc
+  namespace: React-app
+spec:
+  selector:
+    app: ReactApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort
