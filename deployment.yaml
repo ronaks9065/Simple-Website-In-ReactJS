@@ -1,43 +1,43 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: React-app
+  name: ronak
 
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ReactApp
-  namespace: React-app
+  name: facebook
+  namespace: ronak
 spec:
-  replicas: 1
+  replicas: 15
   selector:
     matchLabels:
-      app: ReactApp
+      app: facebook
   template:
     metadata:
       labels:
-        app: ReactApp
+        app: facebook
     spec:
       containers:
-      - name: ReactApp
-        image: ronak1907/simple-website-reactjs:28
+      - name: facebook
+        image: gcr.io/google-samples/hello-app:1.0
         ports:
-        - containerPort: 80
+        - containerPort: 8080
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: ReactApp-svc
-  namespace: React-app
+  name: facebook-svc
+  namespace: ronak
 spec:
   selector:
-    app: ReactApp
+    app: facebook
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 8080
+      targetPort: 8080
   type: NodePort
