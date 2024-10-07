@@ -11,7 +11,7 @@ metadata:
   name: ReactApp
   namespace: React-app
 spec:
-  replicas: 15
+  replicas: 1
   selector:
     matchLabels:
       app: ReactApp
