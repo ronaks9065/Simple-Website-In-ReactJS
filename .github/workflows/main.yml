@@ -32,7 +32,9 @@ jobs:
       - name: Configure JFrog CLI
         run: |
           jfrog config add demo \
-            --artifactory-url=${{ secrets.JFROG_URL }} \
+            --artifactory-url=${{ secrets.JFROG_URL }}/artifactory \
+            --xray-url=${{ secrets.JFROG_URL }}/xray \
+            --user=${{ secrets.JFROG_USERNAME }} \
             --access-token=${{ secrets.JFROG_ACCESS_TOKEN }} \
             --interactive=false
 
