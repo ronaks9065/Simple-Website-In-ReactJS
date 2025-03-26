@@ -39,11 +39,11 @@ jobs:
             --interactive=false
 
       - name: Run JFrog Security Audit for npm
-        run: jfrog audit npm --output json > scan_results.json
+        run: jfrog audit npm
 
-      - name: Upload Scan Results to JFrog Xray
-        run: |
-          jfrog xr curl -X POST /api/v1/scanResults -H "Content-Type: application/json" --data @scan_results.json
+      # - name: Upload Scan Results to JFrog Xray
+      #   run: |
+      #     jfrog xr curl -X POST /api/v1/scanResults -H "Content-Type: application/json" --data @scan_results.json
 
       - name: Run JFrog Scan
         run: jfrog scan .
