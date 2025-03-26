@@ -20,6 +20,8 @@ jobs:
         run: node -v
       - name: Install Dependencies
         run: npm install
+      - name: Run JFrog Security Scan
+        run: jfrog rt scan --fail=false
       - name: Run Linter
         run: npm run lint
       - name: Run Unit Tests
