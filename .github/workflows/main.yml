@@ -25,26 +25,27 @@ jobs:
         
       - name: Install Dependencies
         run: npm install
-        
+
       - name: Install JFrog CLI
-        run: |
-          curl -fL https://getcli.jfrog.io | sh
-          chmod +x jfrog
-          mv jfrog /usr/local/bin/
-          jfrog --version  # Verify installation
+        run: curl -fL https://getcli.jfrog.io/v2 | sh && sudo mv jfrog /usr/local/bin/
 
       - name: Configure JFrog CLI
         run: |
-          jfrog config add my-jfrog-server \
+          jfrog config add demo \
             --artifactory-url=${{ secrets.JFROG_URL }} \
-            --user=${{ secrets.JFROG_USERNAME }} \
-            --access-token=${{ secrets.JFROG_PASSWORD }} \
+            --access-token=${{ secrets.JFROG_ACCESS_TOKEN }} \
             --interactive=false
 
-      # - name: Run JFrog Xray Scan
-      #   run: |
-      #     jfrog xr scan .
-      #   continue-on-error: true
+      - name: Run JFrog Security Audit for npm
+        run: jfrog audit npm --output json > scan_results.json
+
+      - name: Upload Scan Results to JFrog Xray
+        run: |
+          jfrog xr curl -X POST /api/v1/scanResults -H "Content-Type: application/json" --data @scan_results.json
+
+      - name: Cleanup JFrog Configuration
+        if: always()
+        run: jfrog config remove demo
 
       - name: Run Linter
         run: npm run lint
