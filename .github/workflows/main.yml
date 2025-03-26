@@ -34,13 +34,13 @@ jobs:
           mv jfrog /usr/local/bin/
           jfrog --version  # Verify installation
 
-      - name: Configure JFrog CLI
+      - name: Run JFrog Xray Scan
         run: |
-          jfrog config add my-jfrog-server \
-            --artifactory-url=${{ secrets.JFROG_URL }} \
-            --user=${{ secrets.JFROG_USERNAME }} \
-            --password=${{ secrets.JFROG_PASSWORD }} \
-            --interactive=false
+          jfrog xr curl -X POST "${{ secrets.JFROG_URL }}/xray/api/v1/scanArtifact" \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer ${{ secrets.JFROG_API_KEY }}" \
+          -d '{ "component_id": "npm://my-project" }'
+        continue-on-error: true
 
       # Run JFrog Xray Security Scan
       - name: Run JFrog Xray Scan
