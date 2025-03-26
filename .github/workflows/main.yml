@@ -16,6 +16,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+      - name: Verify Node.js Version
+        run: node -v
       - name: Install Dependencies
         run: npm install
       - name: Run Linter
