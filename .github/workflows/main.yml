@@ -35,10 +35,7 @@ jobs:
             --user=${{ secrets.JFROG_USERNAME }} --password=${{ secrets.JFROG_PASSWORD }} --interactive=false
       
       - name: Run JFrog Security Scan
-        run: jfrog rt scan --fail=false
-        
-      - name: Run JFrog Security Scan
-        run: jfrog rt scan --fail=false
+        run: jfrog xr scan .
         
       - name: Run Linter
         run: npm run lint
