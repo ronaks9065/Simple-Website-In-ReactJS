@@ -28,14 +28,15 @@ jobs:
         run: |
           curl -fL https://getcli.jfrog.io | sh
           mv jfrog /usr/local/bin/jfrog
+          jfrog --version  # Verify installation
       
       - name: Configure JFrog CLI
         run: |
           jfrog config add my-jfrog-server --artifactory-url=${{ secrets.JFROG_URL }} \
             --user=${{ secrets.JFROG_USERNAME }} --password=${{ secrets.JFROG_PASSWORD }} --interactive=false
       
-      - name: Run JFrog Security Audit for npm
-        run: jfrog audit npm
+      - name: Run JFrog Xray Scan
+        run: jfrog scan --watches all
         
       - name: Run Linter
         run: npm run lint
