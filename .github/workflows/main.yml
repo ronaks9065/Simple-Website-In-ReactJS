@@ -45,6 +45,9 @@ jobs:
         run: |
           jfrog xr curl -X POST /api/v1/scanResults -H "Content-Type: application/json" --data @scan_results.json
 
+      - name: Run JFrog Scan
+        run: jfrog scan .
+
       - name: Cleanup JFrog Configuration
         if: always()
         run: jfrog config remove demo
