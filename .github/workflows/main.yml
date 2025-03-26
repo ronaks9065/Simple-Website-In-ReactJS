@@ -34,8 +34,8 @@ jobs:
           jfrog config add my-jfrog-server --artifactory-url=${{ secrets.JFROG_URL }} \
             --user=${{ secrets.JFROG_USERNAME }} --password=${{ secrets.JFROG_PASSWORD }} --interactive=false
       
-      - name: Run JFrog Security Scan
-        run: jfrog xr scan .
+      - name: Run JFrog Security Audit for npm
+        run: jfrog audit npm
         
       - name: Run Linter
         run: npm run lint
