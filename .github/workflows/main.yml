@@ -46,7 +46,7 @@ jobs:
 
       - name: Cleanup JFrog Configuration
         if: always()
-        run: jfrog config remove demo
+        run: jfrog config remove demo || true
 
       - name: Run Linter
         run: npm run lint
