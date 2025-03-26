@@ -12,20 +12,40 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+          
       - name: Verify Node.js Version
         run: node -v
+        
       - name: Install Dependencies
         run: npm install
+        
+      - name: Install JFrog CLI
+        run: |
+          curl -fL https://getcli.jfrog.io | sh
+          mv jfrog /usr/local/bin/jfrog
+      
+      - name: Configure JFrog CLI
+        run: |
+          jfrog config add my-jfrog-server --artifactory-url=${{ secrets.JFROG_URL }} \
+            --user=${{ secrets.JFROG_USERNAME }} --password=${{ secrets.JFROG_PASSWORD }} --interactive=false
+      
       - name: Run JFrog Security Scan
         run: jfrog rt scan --fail=false
+        
+      - name: Run JFrog Security Scan
+        run: jfrog rt scan --fail=false
+        
       - name: Run Linter
         run: npm run lint
+        
       - name: Run Unit Tests
         run: npm test -- --coverage || true
+        
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
