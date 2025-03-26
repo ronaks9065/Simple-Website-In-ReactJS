@@ -5,7 +5,7 @@ on:
       - master
   pull_request:
     branches:
-      - master
+      - main
 jobs:
   CI:
     runs-on: ubuntu-latest
@@ -24,3 +24,7 @@ jobs:
         run: npm run lint
       - name: Run Unit Tests
         run: npm test -- --coverage || true
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
