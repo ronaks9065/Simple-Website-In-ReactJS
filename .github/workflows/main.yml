@@ -35,7 +35,7 @@ jobs:
             --artifactory-url=${{ secrets.JFROG_URL }}/artifactory \
             --xray-url=${{ secrets.JFROG_URL }}/xray \
             --user=${{ secrets.JFROG_USERNAME }} \
-            --access-token=${{ secrets.JFROG_ACCESS_TOKEN }} \
+            --access-token=${{ secrets.JFROG_PASSWORD }} \
             --interactive=false
 
       - name: Run JFrog Security Audit for npm
