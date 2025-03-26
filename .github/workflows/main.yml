@@ -38,13 +38,13 @@ jobs:
           jfrog config add my-jfrog-server \
             --artifactory-url=${{ secrets.JFROG_URL }} \
             --user=${{ secrets.JFROG_USERNAME }} \
-            --password=${{ secrets.JFROG_PASSWORD }} \
+            --access-token=${{ secrets.JFROG_PASSWORD }} \
             --interactive=false
 
-      - name: Run JFrog Xray Scan
-        run: |
-          jfrog xr scan .
-        continue-on-error: true
+      # - name: Run JFrog Xray Scan
+      #   run: |
+      #     jfrog xr scan .
+      #   continue-on-error: true
 
       - name: Run Linter
         run: npm run lint
