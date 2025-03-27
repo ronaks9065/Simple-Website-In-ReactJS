@@ -23,9 +23,6 @@ jobs:
           
       - name: Verify Node.js Version
         run: node -v
-        
-      - name: Install Dependencies
-        run: npm install
 
   security:
     name: Security Scan
@@ -69,6 +66,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: npm install
 
       - name: Run Linter
         run: npm run lint
