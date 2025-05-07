@@ -38,36 +38,30 @@ jobs:
           HARBOR_PROJECT: react-app
           HARBOR_USERNAME: admin
           HARBOR_PASSWORD: admin123
+          HARBOR_CERT: ${{ secrets.HARBOR_CERT }}
         run: |
-          # Create a short tag from commit SHA
           TAG="${GITHUB_SHA::4}"
-          
-          # First build the local image
           LOCAL_IMAGE="simple-react-app:${TAG}"
           echo "Building image: ${LOCAL_IMAGE}"
           docker build -t ${LOCAL_IMAGE} .
-          
-          # Create certificate directory for Harbor
-          sudo mkdir -p /etc/docker/certs.d/${HARBOR_URL}
-          
-          # Download and set Harbor's certificate
-          echo "${{ secrets.HARBOR_CERT }}" | sudo tee /etc/docker/certs.d/${HARBOR_URL}/ca.crt > /dev/null
-          
-          # Restart Docker to apply certificate changes
+      
+          # Save Harbor certificate
+          echo "$HARBOR_CERT" | sudo tee /etc/docker/certs.d/${HARBOR_URL}/ca.crt > /dev/null
+      
+          # Restart Docker to pick up the new certificate
           sudo systemctl restart docker || sudo service docker restart
-          sleep 5  # Wait for Docker to restart
-          
-          # Login to Harbor registry
+          sleep 5
+      
+          # Login to Harbor
           echo "${HARBOR_PASSWORD}" | docker login ${HARBOR_URL} -u "${HARBOR_USERNAME}" --password-stdin
-          
-          # Tag and push with SHA tag
+      
+          # Tag and push images
           HARBOR_IMAGE="${HARBOR_URL}/${HARBOR_PROJECT}/simple-react-app:${TAG}"
           docker tag ${LOCAL_IMAGE} ${HARBOR_IMAGE}
           docker push ${HARBOR_IMAGE}
-          
-          # Tag and push latest version as well
+      
           HARBOR_LATEST="${HARBOR_URL}/${HARBOR_PROJECT}/simple-react-app:latest"
           docker tag ${LOCAL_IMAGE} ${HARBOR_LATEST}
           docker push ${HARBOR_LATEST}
-          
-          echo "Successfully pushed images to Harbor registry at ${HARBOR_URL}/${HARBOR_PROJECT}"
+      
+          echo "Successfully pushed images to Harbor at ${HARBOR_URL}/${HARBOR_PROJECT}"
