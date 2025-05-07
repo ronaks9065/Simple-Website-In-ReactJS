@@ -34,10 +34,10 @@ jobs:
         
       - name: Build and Push Docker Image to Harbor
         env:
-          HARBOR_URL: 3.87.83.175
+          HARBOR_URL: ${{ secrets.HARBOR_URL }}
           HARBOR_PROJECT: react-app
-          HARBOR_USERNAME: admin
-          HARBOR_PASSWORD: admin123
+          HARBOR_USERNAME: ${{ secrets.HARBOR_USERNAME }}
+          HARBOR_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
           HARBOR_CERT: ${{ secrets.HARBOR_CERT }}
         run: |
           TAG="${GITHUB_SHA::4}"
