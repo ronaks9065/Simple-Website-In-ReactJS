@@ -36,8 +36,8 @@ jobs:
         env:
           HARBOR_URL: 3.87.83.175
           HARBOR_PROJECT: react-app
-          HARBOR_USERNAME: ${{ secrets.HARBOR_USERNAME }}
-          HARBOR_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
+          HARBOR_USERNAME: admin
+          HARBOR_PASSWORD: admin123
         run: |
           # Create a short tag from commit SHA
           TAG="${GITHUB_SHA::4}"
